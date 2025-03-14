@@ -4,6 +4,12 @@ body {
     overflow: hidden;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 @font-face {
     font-family: 'ABCROM-Book';
     src: url('ABCROM-Book-Trial.otf');
@@ -12,6 +18,11 @@ body {
 @font-face {
     font-family: 'ABCROMCondensed-Bold';
     src: url('ABCROMCondensed-Bold-Trial.otf');
+}
+
+@font-face {
+    font-family: 'ABCROM-Mono';
+    src: url('ABCROMMonoVariable-Trial.woff');
 }
 
 .container {
@@ -24,50 +35,58 @@ body {
     background-color: #000;
 }
 
-h1{
-    font-family: 'ABCROMCondensed-Bold';
-    font-size: 120px;
-    color: #fff;
+.intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     position: absolute;
-    bottom: 20px;
-    transform: translate(-50%, -50%);
+    gap: 2rem;
     left: 50%;
+    bottom: 8%;
+    transform: translateX(-50%);
+    text-align: center;
+    max-height: fit-content;
 }
 
-h2{
+h1 {
+    font-family: 'ABCROMCondensed-Bold';
+    font-size: 120px;
+    line-height: 0.8;
+    color: #fff;
+}
+
+h2 {
     font-family: 'ABCROM-Book';
     font-size: 24px;
     color: rgba(255, 255, 255, 1);
-    position: absolute;
-    bottom: 40px;
-    transform: translate(-50%, -50%);
-    left: 50%;
     line-height: 1.2;
     letter-spacing: -3%;
-    text-align: center;
+    width: 80%;
+
 }
 
 canvas {
     display: block;
     align-self: self-start;
-    justify-self:left;
-    height: calc(100vh*0.8);
-    width: calc(100vh*0.8);
+    justify-self: left;
+    height: calc(100vh*0.72);
+    width: auto;
 }
 
 .lil-gui {
-    --width: 450px;
+    --width: 32rem;
     max-width: 90%;
-    --widget-height: 20px;
-    font-size: 15px;
-    --input-font-size: 15px;
+    --widget-height: 2rem;
+    font-size: 18px;
+    --input-font-size: 18px;
     --padding: 10px;
     --spacing: 10px;
-    --slider-knob-width: 5px;
-    --background-color: rgba(5, 0, 15, .8);
+
+    --slider-knob-width: 12px;
+
     --widget-color: rgba(255, 255, 255, .3);
     --focus-color: rgba(255, 255, 255, .4);
     --hover-color: rgba(255, 255, 255, .5);
-
-    --font-family: monospace;
+    --font-family: ABCROM-Mono;
 }

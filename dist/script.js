@@ -8,12 +8,28 @@ canvasEl.width = 0;
 const devicePixelRatio = Math.min(window.devicePixelRatio, 2);
 
 const params = {
-    tileSize: Math.floor(.06 * window.innerHeight),
+    tileSize: Math.floor(.01 * window.innerHeight),
     scale: 1.5,
-    rotation: 0,
+    rotation: 3,
     useWebcam: true,
     loadImage: () => {
         imgInput.click();
+    },
+    saveImage: () => {
+        // Create a temporary canvas to handle the image download
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = canvasEl.width;
+        tempCanvas.height = canvasEl.height;
+        const tempCtx = tempCanvas.getContext('2d');
+
+        // Draw the current canvas content
+        tempCtx.drawImage(canvasEl, 0, 0);
+
+        // Create download link
+        const link = document.createElement('a');
+        link.download = 'pixelation-portrait.png';
+        link.href = tempCanvas.toDataURL('image/png');
+        link.click();
     }
 };
 
@@ -168,6 +184,13 @@ function updateUniforms() {
     gl.uniform1f(uniforms.u_tile_scale, params.tileSize / canvasEl.clientHeight);
     gl.uniform1f(uniforms.u_scale, params.scale);
     gl.uniform1f(uniforms.u_rotation, params.rotation * Math.PI / 180.0);
+
+    // Update title directly based on tileSize
+    const titleElement = document.querySelector('h1 span');
+    if (titleElement) {
+        const mappedValue = Math.floor(((50 - params.tileSize) / 48) * 20); // Map 2-50 to 20-0
+        titleElement.textContent = `${mappedValue}/20`;
+    }
 }
 
 function render() {
@@ -198,7 +221,7 @@ function createControls() {
     const gui = new GUI();
     gui
         .add(params, "useWebcam")
-        .name("use webcam")
+        .name("USE WEBCAM")
         .onChange(value => {
             if (value) {
                 initWebcam();
@@ -213,16 +236,20 @@ function createControls() {
         });
     gui
         .add(params, "loadImage")
-        .name("load image");
+        .name("UPLOAD IMAGE");
     gui
-        .add(params, "tileSize", 2, 50, 1)
+        .add(params, "saveImage")
+        .name("SAVE IMAGE");
+    gui
+        .add(params, "tileSize", 2, 48, 1)
         .onChange(updateUniforms)
-        .name("tile size");
+        .name("TILE SIZE");
     gui
-        .add(params, "scale", 0, 2, 0.1)
-        .onChange(updateUniforms);
+        .add(params, "scale", 0, 2.4, 0.1)
+        .onChange(updateUniforms)
+        .name("SCALE");
     gui
         .add(params, "rotation", 0, 20, 1)
         .onChange(updateUniforms)
-        .name("rotation angle");
+        .name("ROTATION ANGLE");
 }
